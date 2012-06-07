@@ -8,7 +8,7 @@ class Curriculum(models.Model):
         return self.name
 
 
-class CurriculumUnit(models.Model):
+class Unit(models.Model):
     curriculum = models.ForeignKey(Curriculum)
     level = models.IntegerField()
     body = models.TextField()
