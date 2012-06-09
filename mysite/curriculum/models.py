@@ -43,7 +43,7 @@ class Choice(models.Model):
     correct = models.BooleanField()
 
     def __unicode__(self):
-        choice_str = '[%s]' % self.question + ' ' + self.body
+        choice_str = self.body
 
         if self.correct:
             choice_str += ' (correct)'
