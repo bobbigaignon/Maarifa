@@ -1,0 +1,9 @@
+<h1>Maarifa</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="/prototype/send/" method="post">
+{% csrf_token %}
+	<input type="text" name="query" />
+	<input type="submit" value="Send" />
+</form>
