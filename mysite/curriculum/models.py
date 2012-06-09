@@ -18,3 +18,29 @@ class Unit(models.Model):
 
     class Meta:
         unique_together = ('curriculum', 'level')
+
+
+class Quizz(models.Model):
+    unit = models.ForeignKey(Unit)
+    title = models.CharField(max_length=30)
+
+    def __unicode__(self):
+        return self.title
+
+
+class Question(models.Model):
+    quizz = models.ForeignKey(Quizz)
+    body = models.TextField()
+
+    def __unicode__(self):
+        return '[%s]' % self.quizz + ' ' + self.body
+
+
+class Choice(models.Model):
+    # TODO: force exactly one correct answer per question.
+    question = models.ForeignKey(Question)
+    body = models.TextField()
+    correct = models.BooleanField()
+
+    def __unicode__(self):
+        return '[%s]' % self.question + ' ' + self.body
