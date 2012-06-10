@@ -22,7 +22,7 @@ class Unit(models.Model):
 
 
 class Quizz(models.Model):
-    unit = models.ForeignKey(Unit)
+    unit = models.ForeignKey(Unit, unique=True)
     title = models.CharField(max_length=30)
 
     def __unicode__(self):

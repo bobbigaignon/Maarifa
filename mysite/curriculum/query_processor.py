@@ -1,5 +1,4 @@
 import re
-from random import choice
 
 from curriculum.models import Curriculum
 from curriculum.models import Unit
@@ -50,8 +49,8 @@ class QueryProcesser(object):
     def _get_quizz(self, curriculum_code, level):
         curriculum = Curriculum.objects.get(code=curriculum_code)
         unit = Unit.objects.get(curriculum=curriculum, level=level)
-        quizzes = Quizz.objects.filter(unit=unit).all()
-        return self._format_quizz(choice(quizzes))
+        quizz = Quizz.objects.get(unit=unit)
+        return self._format_quizz(quizz)
 
     def _process_user_request(self, request_string):
         """Analyze a user string and response accordingly.
