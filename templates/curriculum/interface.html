@@ -1,11 +1,12 @@
 <h1>Maarifa</h1>
 
-<textarea readonly="True">
+<textarea readonly="True" style="margin: 2px; width: 800px; height: 400px;">
 {{ server_response }}
 </textarea>
 
 <form action="/prototype/" method="post">
 {% csrf_token %}
-	<input type="text" name="query" />
+	<input type="text" name="query" style="margin: 2px; width:
+	500px;" />
 	<input type="submit" value="Send" />
 </form>
