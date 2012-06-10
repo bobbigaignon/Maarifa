@@ -3,6 +3,7 @@ from django.db import models
 
 class Curriculum(models.Model):
     name = models.CharField(max_length=50, unique=True)
+    code = models.CharField(max_length=15, unique=True)
 
     def __unicode__(self):
         return self.name
