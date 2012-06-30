@@ -6,6 +6,8 @@ from curriculum.models import Quizz
 from curriculum.models import Question
 from curriculum.models import QuizzQuestions
 from curriculum.models import Choice
+from curriculum.models import StudentQuizzHistory
+from curriculum.models import Student
 
 
 class QueryProcesser(object):
@@ -48,13 +50,27 @@ class QueryProcesser(object):
 
         return '\n\n'.join(formatted_questions)
 
-    def _get_quizz(self, curriculum_code, level):
+    def _get_quizz(self, curriculum_code, level, student):
         curriculum = Curriculum.objects.get(code=curriculum_code)
         unit = Unit.objects.get(curriculum=curriculum, level=level)
+
+        # Check if the student has already take a quizz for the same unit
+        if StudentQuizzHistory.objects.filter(unit=unit, student=student).all():
+            raise Exception("Already took the quizz.")
+
+        # Get a random quizz for the given unit
         quizz = Quizz.objects.get(unit=unit)
+
+        # Record that the student has taken a quizz for the given unit
+        StudentQuizzHistory.objects.create(
+            unit=unit,
+            quizz=quizz,
+            student=student,
+            )
+
         return self._format_quizz(quizz)
 
-    def _process_user_request(self, request_string):
+    def process_user_request(self, phone_number, request_string):
         """Analyze a user string and response accordingly.
 
         User's query are expected to follow this format:
@@ -79,6 +95,7 @@ class QueryProcesser(object):
           response, in the form of a string, will be returned.
 
         """
+        request_string = request_string.upper()
 
         if self.get_matcher.match(request_string) is not None:
             matcher = self.get_matcher.match(request_string)
@@ -89,9 +106,19 @@ class QueryProcesser(object):
 
         elif self.take_matcher.match(request_string) is not None:
             matcher = self.take_matcher.match(request_string)
+
+            student = self._register_student(phone_number)
+
             return self._get_quizz(
                 matcher.group('curriculum'),
                 matcher.group('level'),
+                student,
                 )
 
         return "DID NOT RECOGNIZE QUERY"
+
+    def _register_student(self, phone_number):
+        if not Student.objects.filter(phone_number=phone_number).all():
+            return Student.objects.create(name="John Doe", phone_number=phone_number)
+
+        return Student.objects.get(phone_number=phone_number)

@@ -60,3 +60,20 @@ class Choice(models.Model):
             choice_str += ' (incorrect)'
 
         return choice_str
+
+
+class Student(models.Model):
+    name = models.CharField(max_length=50)
+    phone_number = models.CharField(max_length=15, unique=True)
+
+
+class StudentQuizzHistory(models.Model):
+    """Records history of test taken by students."""
+    unit = models.ForeignKey(Unit)
+    quizz = models.ForeignKey(Quizz)
+    student = models.ForeignKey(Student)
+    answers = models.TextField(null=True)
+    correct_answers = models.IntegerField(null=True)
+
+    class Meta:
+        unique_together = ('student', 'quizz')

@@ -9,8 +9,9 @@ def analyze_request(request):
 
     if request.method == 'POST':
         response_dict.update(
-            server_response=processor._process_user_request(
-                request.POST['query']
+            server_response=processor.process_user_request(
+                request.POST['phone_number'],
+                request.POST['query'],
                 ),
             )
 
