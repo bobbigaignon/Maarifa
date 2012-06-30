@@ -22,7 +22,7 @@ class Unit(models.Model):
 
 
 class Quizz(models.Model):
-    unit = models.ForeignKey(Unit, unique=True)
+    unit = models.ForeignKey(Unit)
     title = models.CharField(max_length=30)
 
     def __unicode__(self):
@@ -30,11 +30,19 @@ class Quizz(models.Model):
 
 
 class Question(models.Model):
-    quizz = models.ForeignKey(Quizz)
     body = models.TextField()
 
     def __unicode__(self):
-        return '[%s]' % self.quizz + ' ' + self.body
+        return self.body
+
+
+class QuizzQuestions(models.Model):
+    """Auxiliary table that links a quizz to a set of questions"""
+    quizz = models.ForeignKey(Quizz)
+    question = models.ForeignKey(Question)
+
+    class Meta:
+        unique_together = ('question', 'quizz')
 
 
 class Choice(models.Model):

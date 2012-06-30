@@ -5,6 +5,7 @@ from curriculum.models import Unit
 from curriculum.models import Quizz
 from curriculum.models import Question
 from curriculum.models import Choice
+from curriculum.models import QuizzQuestions
 
 
 class ChoiceInline(admin.StackedInline):
@@ -16,16 +17,8 @@ class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
 
 
-class QuestionInline(admin.StackedInline):
-    model = Question
-    extra = 0
-
-
-class QuizzAdmin(admin.ModelAdmin):
-    inlines = [QuestionInline]
-
-
 admin.site.register(Curriculum)
 admin.site.register(Unit)
-admin.site.register(Quizz, QuizzAdmin)
+admin.site.register(Quizz)
 admin.site.register(Question, QuestionAdmin)
+admin.site.register(QuizzQuestions)

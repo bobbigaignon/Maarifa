@@ -4,6 +4,7 @@ from curriculum.models import Curriculum
 from curriculum.models import Unit
 from curriculum.models import Quizz
 from curriculum.models import Question
+from curriculum.models import QuizzQuestions
 from curriculum.models import Choice
 
 
@@ -20,9 +21,10 @@ class QueryProcesser(object):
 
     def _format_quizz(self, quizz):
         formatted_questions = []
-        questions = Question.objects.filter(quizz=quizz).all()
+        questions = QuizzQuestions.objects.filter(quizz=quizz).all()
         question_number = 1
-        for q in questions:
+        for question in questions:
+            q = question.question
             formatted_question = ["{0}- {1}".format(question_number, q.body)]
 
             # Load possible choices
