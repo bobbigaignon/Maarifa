@@ -140,6 +140,8 @@ class QueryProcesser(object):
 
         assert len(quizz_taken) == 1
 
+        quizz_taken = quizz_taken[0]
+
         # Parse answers to a dictionary mapping question number to
         # submitted answer.
         parsed_answers = {}
@@ -150,7 +152,7 @@ class QueryProcesser(object):
         # Verify the answers submitted for each question
         correct_answers = 0
 
-        quizz = quizz_taken[0].quizz
+        quizz = quizz_taken.quizz
         questions = self._list_questions_for_quizz(quizz)
         index = 1
         for question in questions:
@@ -169,6 +171,8 @@ class QueryProcesser(object):
         # Save answers
         quizz_taken.answers = answers
         quizz_taken.correct_answers = correct_answers
+
+        quizz_taken.save()
 
         return "You've got %d out of %d questions right." % (correct_answers, index - 1)
 

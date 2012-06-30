@@ -66,6 +66,8 @@ class Student(models.Model):
     name = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=15, unique=True)
 
+    def __unicode__(self):
+        return self.phone_number
 
 class StudentQuizzHistory(models.Model):
     """Records history of test taken by students."""
