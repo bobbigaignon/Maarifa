@@ -25,12 +25,17 @@ class QuestionInline(admin.StackedInline):
 
 
 class QuizzAdmin(admin.ModelAdmin):
+    list_display = ['title', 'unit', 'number_of_questions']
     inlines = [QuestionInline]
+
+
+class StudentQuizzHistoryAdmin(admin.ModelAdmin):
+    list_display = ['student', 'quizz', 'unit', 'correct_answers']
 
 
 admin.site.register(Curriculum)
 admin.site.register(Unit)
 admin.site.register(Quizz, QuizzAdmin)
 admin.site.register(Question, QuestionAdmin)
-admin.site.register(StudentQuizzHistory)
+admin.site.register(StudentQuizzHistory, StudentQuizzHistoryAdmin)
 admin.site.register(Student)

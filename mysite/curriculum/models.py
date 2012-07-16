@@ -28,6 +28,9 @@ class Quizz(models.Model):
     def __unicode__(self):
         return self.title
 
+    def number_of_questions(self):
+        return len(QuizzQuestions.objects.filter(quizz=self).all())
+
 
 class Question(models.Model):
     body = models.TextField()
@@ -69,6 +72,7 @@ class Student(models.Model):
     def __unicode__(self):
         return self.phone_number
 
+
 class StudentQuizzHistory(models.Model):
     """Records history of test taken by students."""
     unit = models.ForeignKey(Unit)
@@ -79,3 +83,6 @@ class StudentQuizzHistory(models.Model):
 
     class Meta:
         unique_together = ('student', 'quizz')
+
+    def __unicode__(self):
+        return str(self.student) + " took quizz (%s)" % self.quizz
