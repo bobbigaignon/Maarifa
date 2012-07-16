@@ -1,4 +1,5 @@
 import re
+import random
 
 from curriculum.models import Curriculum
 from curriculum.models import Unit
@@ -73,7 +74,7 @@ class QueryProcesser(object):
             raise Exception("Already taking the quizz. Waiting for student to submit his answers.")
 
         # Get a random quizz for the given unit
-        quizz = Quizz.objects.get(unit=unit)
+        quizz = random.choice(Quizz.objects.filter(unit=unit).all())
 
         # Record that the student has taken a quizz for the given unit
         StudentQuizzHistory.objects.create(
