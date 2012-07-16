@@ -19,10 +19,18 @@ class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
 
 
+class QuestionInline(admin.StackedInline):
+    model = QuizzQuestions
+    extra = 0
+
+
+class QuizzAdmin(admin.ModelAdmin):
+    inlines = [QuestionInline]
+
+
 admin.site.register(Curriculum)
 admin.site.register(Unit)
-admin.site.register(Quizz)
+admin.site.register(Quizz, QuizzAdmin)
 admin.site.register(Question, QuestionAdmin)
-admin.site.register(QuizzQuestions)
 admin.site.register(StudentQuizzHistory)
 admin.site.register(Student)
